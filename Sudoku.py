@@ -28,9 +28,9 @@ class Sudoku:
 			[0,0,0,0,8,0,0,7,9]
 		]
 
-		self.map = self.createMap()
+		self.boardMap = self.mapFixedNumbers()
 
-	def createMap(self):
+	def mapFixedNumbers(self):
 		temp = []
 		for row in self.problem:
 			tempRow=[]
@@ -66,39 +66,29 @@ class Sudoku:
 			c,r = self.moveToNext(c,r)			
 			v = 1
 			self.recursion(c,r,v) 
-	
 
 	# takes in current position
 	# skips fixed ones
 	def moveToNext(self,c,r):	
-		if c == 8: #fyrsta skrefið til að færa frá current
-			c = 0
-			r +=1
-		else:
-			c+=1
+		if c == 8: c = 0; r +=1
+		else: c+=1
 		while self.isFixed(c,r):
 			if c == 8: 
 				c = 0
 				r +=1
 				if r==9: break
-			else:
-				c+=1
+			else: c+=1
 		return [c,r]
 
 	def moveBack(self,c,r):
-		if c == 0: #fyrsta skrefið til að færa frá current
-			c = 8
-			r -=1
-		else:
-			c-=1
+		if c == 0: c = 8;r -=1
+		else: c-=1
 		while self.isFixed(c,r):
 			if c == 0: 
 				c = 8
 				r -=1
-			else:
-				c-=1
+			else: c-=1
 		return [c,r]
-
 
 	def breaksRules(self,c,r,v):	
 		breaksC = self.breaksColumnRule(c,v)
@@ -112,7 +102,7 @@ class Sudoku:
 	# a part of the original given numbers or not
 	# (and thus is fixed, cannot be changed)
 	def isFixed(self,colIdx,rowIdx):
-		if self.map[rowIdx][colIdx] == 0:
+		if self.boardMap[rowIdx][colIdx] == 0:
 			return False
 		return True
 
@@ -127,7 +117,6 @@ class Sudoku:
 			return True
 		return False
 
-
 	def breaksBoxRule(self,colIdx,rowIdx,value):
 		xLo,yLo = self.currentBoxOrigin(rowIdx,colIdx)
 		xHi,yHi = xLo+3,yLo+3
@@ -136,7 +125,6 @@ class Sudoku:
 				return True
 		return False
 
-
 	def currentBoxOrigin(self,rowIdx,colIdx):
 		xBox = self.checkWhichThird(colIdx)
 		yBox = self.checkWhichThird(rowIdx)
@@ -144,12 +132,9 @@ class Sudoku:
 
 	def checkWhichThird(self,idx):
 		j=0
-
 		for i in range(9):
-			if i%3==0:
-				j+=1
-			if idx == i:
-				return(j-1)
+			if i%3 == 0: j+=1
+			if idx == i: return(j-1)
 
 
 	# ****************************
