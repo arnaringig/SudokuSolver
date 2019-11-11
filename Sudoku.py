@@ -35,10 +35,8 @@ class Sudoku:
 		for row in self.problem:
 			tempRow=[]
 			for i in row:
-				if i == 0:
-					tempRow.append(i)
-				else:
-					tempRow.append(1)
+				if i == 0: tempRow.append(i)
+				else: tempRow.append(1)
 			temp.append(tempRow)
 		return temp
 
