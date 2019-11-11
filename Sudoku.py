@@ -45,55 +45,54 @@ class Sudoku:
 	def solve(self):
 		self.recursion(0,0,1)
 		if self.problem == self.problemSolution:
-			print("solved")
+			print( "solved" )
 		for i in self.problem:
 			print(i)
 
 	def recursion(self,c,r,v):
-		if r==9: return
-
-		if self.isFixed(c,r):
-			c,r = self.moveToNext(c,r)
-		while self.breaksRules(c,r,v) and v in range(10):
-			v+=1
+		if r == 9: return
+		if self.isFixed(c, r):
+			c,r = self.moveToNext(c, r)
+		while self.breaksRules(c, r, v) and v in range(10):
+			v += 1
 		if v == 10:
-			self.problem[r][c]=0
-			c,r = self.moveBack(c,r)
+			self.problem[r][c] = 0
+			c,r = self.moveBack(c, r)
 			v = self.problem[r][c]	
-			self.recursion(c,r,v+1)
+			self.recursion(c, r, v+1)
 		else:
 			self.problem[r][c] = v
-			c,r = self.moveToNext(c,r)			
+			c,r = self.moveToNext(c, r)			
 			v = 1
-			self.recursion(c,r,v) 
+			self.recursion(c, r, v) 
 
 	# takes in current position
 	# skips fixed ones
-	def moveToNext(self,c,r):	
-		if c == 8: c = 0; r +=1
-		else: c+=1
-		while self.isFixed(c,r):
+	def moveToNext(self, c, r):	
+		if c == 8: c = 0; r += 1
+		else: c += 1
+		while self.isFixed(c, r):
 			if c == 8: 
 				c = 0
-				r +=1
-				if r==9: break
-			else: c+=1
+				r += 1
+				if r == 9: break
+			else: c += 1
 		return [c,r]
 
-	def moveBack(self,c,r):
-		if c == 0: c = 8;r -=1
-		else: c-=1
-		while self.isFixed(c,r):
+	def moveBack(self, c, r):
+		if c == 0: c = 8; r -= 1
+		else: c -= 1
+		while self.isFixed(c, r):
 			if c == 0: 
 				c = 8
-				r -=1
-			else: c-=1
+				r -= 1
+			else: c -= 1
 		return [c,r]
 
-	def breaksRules(self,c,r,v):	
-		breaksC = self.breaksColumnRule(c,v)
-		breaksR = self.breaksRowRule(r,v)
-		breaksB = self.breaksBoxRule(c,r,v)
+	def breaksRules(self, c, r, v):	
+		breaksC = self.breaksColumnRule(c, v)
+		breaksR = self.breaksRowRule(r, v)
+		breaksB = self.breaksBoxRule(c, r, v)
 		if breaksC or breaksR or breaksB:
 			return True
 		return False
@@ -101,39 +100,39 @@ class Sudoku:
 	# determines whether the number in the box is 
 	# a part of the original given numbers or not
 	# (and thus is fixed, cannot be changed)
-	def isFixed(self,colIdx,rowIdx):
+	def isFixed(self, colIdx, rowIdx):
 		if self.boardMap[rowIdx][colIdx] == 0:
 			return False
 		return True
 
-	def breaksColumnRule(self,colIdx,value):
+	def breaksColumnRule(self, colIdx, value):
 		for row in self.problem:
 			if value == row[colIdx]:
 				return True
 		return False
 
-	def breaksRowRule(self,rowIdx,value):
+	def breaksRowRule(self, rowIdx, value):
 		if value in self.problem[rowIdx]:
 			return True
 		return False
 
-	def breaksBoxRule(self,colIdx,rowIdx,value):
-		xLo,yLo = self.currentBoxOrigin(rowIdx,colIdx)
-		xHi,yHi = xLo+3,yLo+3
+	def breaksBoxRule(self, colIdx, rowIdx, value):
+		xLo, yLo = self.currentBoxOrigin(rowIdx, colIdx)
+		xHi, yHi = xLo + 3, yLo + 3 
 		for row in self.problem[yLo:yHi]:
 			if value in row[xLo:xHi]:
 				return True
 		return False
 
-	def currentBoxOrigin(self,rowIdx,colIdx):
+	def currentBoxOrigin(self, rowIdx, colIdx ):
 		xBox = self.checkWhichThird(colIdx)
 		yBox = self.checkWhichThird(rowIdx)
-		return [3*i for i in [xBox,yBox]]
+		return [3 * i for i in [xBox, yBox]]
 
 	def checkWhichThird(self,idx):
-		j=0
+		j = 0
 		for i in range(9):
-			if i%3 == 0: j+=1
+			if i % 3 == 0: j += 1
 			if idx == i: return(j-1)
 
 
