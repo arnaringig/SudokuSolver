@@ -43,7 +43,6 @@ class Sudoku:
 		return temp
 
 	def solve(self):
-
 		self.recursion(0,0,1)
 		if self.problem == self.problemSolution:
 			print("solved")
