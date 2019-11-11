@@ -41,19 +41,19 @@ class Sudoku:
 		return temp
 
 	def solve(self):
-		self.recursion(0,0,1)           # We start the recursion at the top right corner of the sudoku problem and try the inital value as 1
+		self.recursion(0,0,1)               # We start the recursion at the top right corner of the sudoku problem and try the inital value as 1
 		if self.problem == self.problemSolution:
 			print( "solved" )
 		for i in self.problem:
 			print(i)
 
 	def recursion(self,c,r,v):
-		if r == 9: return               # If we have reached a place where the row is number 9, we have found all the values and solved the problem, so we return.
-		if self.isFixed(c, r):          # check if the first square is a fixed number or empty.
+		if r == 9: return                   # If we have reached a place where the row is number 9, we have found all the values and solved the problem, so we return.
+		if self.isFixed(c, r):              # check if the first square is a fixed number or empty.
 			c,r = self.moveToNext(c, r) # If fixed we move one right (or until there´s an empty square)
 		while self.breaksRules(c, r, v) and v in range(10):  
 			v += 1                      # Then we try numbers from 1 to 9 and see if there´s a number that doesn´t break the rules.
-		if v == 10:                     # If v gets to 10 it means no number didn´t break the rules so we have to backtrack.
+		if v == 10:                         # If v gets to 10 it means no number didn´t break the rules so we have to backtrack.
 			self.problem[r][c] = 0.     # When backtracking we must "empty" the current square so we can check if it´s empty when moving forward again.
 			c,r = self.moveBack(c, r)   # Moves us to the next point that isn´t fixed.
 			v = self.problem[r][c]      # Let´s get the value from the square we´re backtracking to so we can increase it by 1
