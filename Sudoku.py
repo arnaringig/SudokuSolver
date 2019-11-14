@@ -1,6 +1,4 @@
 
-import sys
-
 class Sudoku:
 	def __init__(self):
 
@@ -47,7 +45,11 @@ class Sudoku:
 		for i in self.problem:
 			print(i)
 
+
 	def recursion(self,c,r,v):
+		for i in self.problem:
+			print(i)
+		print("")
 		if r == 9: return                   # If we have reached a place where the row is number 9, we have found all the values and solved the problem, so we return.
 		if self.isFixed(c, r):              # check if the first square is a fixed number or empty.
 			c,r = self.moveToNext(c, r) # If fixed we move one right (or until there´s an empty square)
@@ -127,6 +129,8 @@ class Sudoku:
 		yBox = self.checkWhichThird(rowIdx)
 		return [3 * i for i in [xBox, yBox]]
 
+
+	# 
 	def checkWhichThird(self,idx):
 		j = 0
 		for i in range(9):
