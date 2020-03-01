@@ -3,8 +3,8 @@ from Sudoku import Sudoku
 
 def main():
 	sudoku = Sudoku()
-	#sys.setrecursionlimit(20000)
-	sys.setrecursionlimit(25)
+	sys.setrecursionlimit(10000)
+
 	sudoku.solve()
 
 if __name__ == "__main__":
